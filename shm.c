@@ -1,92 +1,47 @@
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
 
-/* Function to construct a time grid, with initial time point t0
-   final time point = tf, and delta t = h */
-
-double* grid_construct(int t0, int tf,  double h )  {
- // Calculate number of time values (a constant)
- const int kt_num = (tf - t0) / h ;
- // Allocate memory for the array of time values
- double* time_grid = (double*)malloc(kt_num * sizeof(double));
- // Check if memory allocation was successful
- if (time_grid == NULL) {
-    printf("Memory allocation failed!\n");
-    exit(1); // Exit the program if allocation fails
-   }
- // Construct the Array of Time Values
- time_grid[0] = (double)t0;  // set initial value
- for( int i = 1; i < kt_num + 1; i++)  {
-  time_grid[i] = time_grid[i-1] + h;
- }
-
- // Return the pointer to the allocated array
- return time_grid;
+// This function uses pass by refference to populate an uninitialized array>
+void grid_construct(double grid[], double step_size, int knum )  {
+  grid[0] = (double)0;
+  grid[1] = (double)step_size;
+  for( int i = 1;  i < knum - 1; i++ ) {  //fill in grid from index 2 to fin>
+   grid[i+1] = grid[i] + (double)step_size;
+  }
 }
 
-/* Finite Difference Forward Solver for Simple Harmonic Motion
-   w/ m=, h=0 */
-
-double* SHM_FDfor( int t_num, double h )  {
- // Allocate memory for the solution array [x(t)]
- double* x = (double*)malloc(t_num * sizeof(double));
- // Check if memory allocation was successful
- if (x == NULL) {
-    printf("Memory allocation failed!\n");
-    exit(1); // Exit the program if allocation fails
-   }
- // Cacluate Solution array
- x[0] = (double)1;   // Initial condition
- x[1] = (double)1;   // Initial condition
- for( int i = 1; i < t_num; i++)  {
-  x[i+1] = (2 - h*h)*x[i] - x[i-1];
- }
- return x;
+// This function uses pass by refference to calculate the FD forward solver solution
+double* SHM_FDfor( double soln[], double step_size, int knum )  {
+  soln[0] = (double)1;   // Initial condition
+  soln[1] = (double)1;   // Initial condition
+  for( int i = 1; i < knum - 1; i++)  {
+   soln[i+1] = (2 - step_size*step_size)*soln[i] - soln[i-1];
+  }
+  return soln;
 }
-
 
 
 int main( void )  {
- clock_t start = clock();
- // Define the grid constructor input parameters
- int    t0 = 0;
- int    tf = 10;
- double h  = 0.0001;
- int t_num = (tf - t0) / h; // we have to redefine here to print
 
- /* Call the grid constructor function to create the time
-    grid and store the returned pointer */
- double* times = grid_construct( t0, tf, h);
+ // define simulation parameters (move this to an init file later on)
+ int t0 =      0;              // start time
+ int tf =      1;              // end time
+ double dt = 0.1;              // delta time
+ int tnum = (tf - t0) / dt;    // number of time points
+ double time_grid[tnum];       // initialize timegrid
+ double soln[tnum];            // initialize solution grid
 
- /* Call the solution function to create the solution array
-    and return pointer */
- double* x = SHM_FDfor( t_num, h );
-
- clock_t end = clock();
- double elapsedT = (double)(end - start) / CLOCKS_PER_SEC;
- // Print the elements of the time array
- printf("Time Values: ");
- for (int i = 0; i < t_num + 1 ; i++) {
-
-  printf("%lf ", times[i]);
- }
- printf("\n\n");
-
- // Print the elements of the solution array
- printf("X(t) Values: ");
- for (int i = 0; i < t_num + 1 ; i++) {
-
-  printf("%lf ", x[i]);
- }
- printf("\n\n\n");
-
- // Print Elapsed Time
- printf("Time elapsed = %f\n", elapsedT);
-
- // Free the allocated memory to avoid memory leaks
- free(times);
- free(x);
-
- return 0;
+ // populate grid using parameters defined above
+ grid_construct(time_grid,dt,tnum);
+ // calculate soln using parameters defined above
+ double* test =  SHM_FDfor(soln,dt,tnum);
+ printf("third value of solution = %lf\n", *(test+2));
+// grid_construct(time_grid,dt,tnum);
+ for( int i = 0; i < tnum; i++)  {
+  printf( "time_grid[%d]: %lf\n",i, time_grid[i]);
+  printf("      soln[%d]: %lf\n",i, soln[i]);
+  }
 }
+
