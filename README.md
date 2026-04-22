@@ -9,6 +9,13 @@ This repo contains files for solving a simple harmonic oscillator [with k=1, m=1
 2) A matrix solution, implementing the central finite difference method based on the more standard method of solving FD problems
 	The boundary conditions are the same as approach 1) above
 
-Functions are saved in: shm.py
-A script for a simple system is contined in: shm_script.py
-Elapsed time for each approach is characterized in shm_perf.py
+Python functions are saved in: shm.py  
+A script comparing the two approaches described above with the analytical solution is found at: shm_script.py  
+Performance at different grid resolutions is analyzed in: shm_perf.py
+
+# Comparison with C
+The 'forward solver' is implemented in C (shm.c) and compiled in a shared library (shm.so - working in Debian 13 )  
+  
+The C forward solver (implemented using Ctypes) is compared with the Python based forward solver in: shm_dt_analysis.py  
+/figures/shm_time_analysis.png shows the computation time improvements between the techniques as the number of grid points is increased
+
