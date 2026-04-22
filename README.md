@@ -1,4 +1,4 @@
-### SHM
+# SHM
 Finite Difference Simple Harmonic Motion Solver
 
 This repo contains files for solving a simple harmonic oscillator [with k=1, m=1] using two Finite Difference inspired techniques:
@@ -14,7 +14,7 @@ Python functions are saved in: *shm.py*
 A script comparing the two approaches described above with the analytical solution is found at: *shm_script.py*  
 Performance at different grid resolutions is analyzed in: *shm_perf.py*
 
-# Comparison with C
+## Comparison with C
 The 'forward solver' is implemented in C (*shm.c*) and compiled in a shared library (*shm.so* - working in Debian 13 )  
   
 The C forward solver (implemented using Ctypes) is compared with the Python based forward solver in: *shm_dt_analysis.py*  
