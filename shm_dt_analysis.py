@@ -101,8 +101,19 @@ print("\nError between Ctypes forward solver and analytical soln: ", error_FDC_v
 print("\nError between Ctypes and Python forward solvers: ",         error_vec )
 
 
+numPoints = [10/x for x in dt_vec]         # list containing the number of grid points at each dt
+## Plotting (elapsed time vs # of grid points)##
+plt.plot(numPoints, FD_time_vec, '*',  label = 'Finite Difference')
+plt.plot(numPoints, an_time_vec, '*',  label = 'Analytical Solution')
+plt.plot(numPoints, FDC_time_vec,'*',  label = 'Ctypes Finite Difference')
+plt.xscale('log')
+plt.xlabel('# of Grid Points')
+plt.ylabel('Computation Time (s)')
+plt.title('Computation Time vs. # of Grid Points')
+plt.legend()
+plt.savefig('shm_time_analysis.png')
 
-## Plotting ##
+## Plotting (elapsed time vs dt) ##
 plt.plot(dt_vec, FD_time_vec, '*',  label = 'Finite Difference')
 plt.plot(dt_vec, an_time_vec, '*',  label = 'Analytical Solution')
 plt.plot(dt_vec, FDC_time_vec,'*',  label = 'Ctypes Finite Difference')

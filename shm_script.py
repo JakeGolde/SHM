@@ -104,3 +104,5 @@ plt.savefig('shm.png')
 plot_end = time()
 #print( "plot time: ", plot_end-plot_start)
 #print(A)
+
+print("times: ", t, "\n\nX(t): ", x)

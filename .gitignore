@@ -1,0 +1,14 @@
+## bytecode files
+__pycache__
+
+## linux perf files
+perf.data
+perf.data.old
+
+
+## Python virtual environment
+env/
+
+## C binaries
+shm
+shm2
