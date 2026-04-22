@@ -1,7 +1,7 @@
 # SHM
 Finite Difference Simple Harmonic Motion Solver
 
-This repo contains files for solving a simple harmonic oscillator [with k=1, m=1] using two Finite Difference inspired techniques:
+This repo contains files for solving a simple harmonic oscillator [with $k=1$, $m=1$] using two Finite Difference inspired techniques:
 
 1) A 'forward solver'
 	The initial conditions $[x(0) = 1, v(0) = 0]$ are converted to 'boundary' conditions $[x(0) = 1, x(1) = 1]$ through applying the discrete first derivative [difference equation: $x(n+h) -x(n) / h$ ] to the initial conditions.
